@@ -121,7 +121,28 @@ function AuthPage() {
           <CardDescription>Вход по почте и паролю</CardDescription>
         </CardHeader>
         <CardContent>
+          <Button
+            variant="outline"
+            className="mb-4 w-full"
+            disabled={busy}
+            onClick={async () => {
+              setBusy(true);
+              const result = await lovable.auth.signInWithOAuth("google", {
+                redirect_uri: window.location.origin,
+              });
+              if (result.error) {
+                setBusy(false);
+                toast.error("Не удалось войти через Google");
+                return;
+              }
+              if (result.redirected) return;
+              void navigate({ to: "/trainings" });
+            }}
+          >
+            Продолжить с Google
+          </Button>
           <Tabs defaultValue="login">
+
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Вход</TabsTrigger>
               <TabsTrigger value="signup">Регистрация</TabsTrigger>
