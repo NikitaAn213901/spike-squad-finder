@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as TournamentsIndexRouteImport } from './routes/tournaments.index'
+import { Route as TournamentsTournamentIdRouteImport } from './routes/tournaments.$tournamentId'
 import { Route as TrainingsIndexRouteImport } from './routes/trainings.index'
 import { Route as TrainingsTrainingIdRouteImport } from './routes/trainings.$trainingId'
 
@@ -30,6 +31,11 @@ const TournamentsIndexRoute = TournamentsIndexRouteImport.update({
   path: '/tournaments/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TournamentsTournamentIdRoute = TournamentsTournamentIdRouteImport.update({
+  id: '/tournaments/$tournamentId',
+  path: '/tournaments/$tournamentId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainingsIndexRoute = TrainingsIndexRouteImport.update({
   id: '/trainings/',
   path: '/trainings/',
@@ -44,6 +50,7 @@ const TrainingsTrainingIdRoute = TrainingsTrainingIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/tournaments/$tournamentId': typeof TournamentsTournamentIdRoute
   '/trainings/$trainingId': typeof TrainingsTrainingIdRoute
   '/tournaments/': typeof TournamentsIndexRoute
   '/trainings/': typeof TrainingsIndexRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/tournaments/$tournamentId': typeof TournamentsTournamentIdRoute
   '/trainings/$trainingId': typeof TrainingsTrainingIdRoute
   '/tournaments': typeof TournamentsIndexRoute
   '/trainings': typeof TrainingsIndexRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/tournaments/$tournamentId': typeof TournamentsTournamentIdRoute
   '/trainings/$trainingId': typeof TrainingsTrainingIdRoute
   '/tournaments/': typeof TournamentsIndexRoute
   '/trainings/': typeof TrainingsIndexRoute
@@ -66,13 +75,25 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/trainings/$trainingId' | '/tournaments/' | '/trainings/'
+    | '/'
+    | '/auth'
+    | '/tournaments/$tournamentId'
+    | '/trainings/$trainingId'
+    | '/tournaments/'
+    | '/trainings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/trainings/$trainingId' | '/tournaments' | '/trainings'
+  to:
+    | '/'
+    | '/auth'
+    | '/tournaments/$tournamentId'
+    | '/trainings/$trainingId'
+    | '/tournaments'
+    | '/trainings'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/tournaments/$tournamentId'
     | '/trainings/$trainingId'
     | '/tournaments/'
     | '/trainings/'
@@ -81,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  TournamentsTournamentIdRoute: typeof TournamentsTournamentIdRoute
   TrainingsTrainingIdRoute: typeof TrainingsTrainingIdRoute
   TournamentsIndexRoute: typeof TournamentsIndexRoute
   TrainingsIndexRoute: typeof TrainingsIndexRoute
@@ -109,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TournamentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tournaments/$tournamentId': {
+      id: '/tournaments/$tournamentId'
+      path: '/tournaments/$tournamentId'
+      fullPath: '/tournaments/$tournamentId'
+      preLoaderRoute: typeof TournamentsTournamentIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trainings/': {
       id: '/trainings/'
       path: '/trainings'
@@ -129,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  TournamentsTournamentIdRoute: TournamentsTournamentIdRoute,
   TrainingsTrainingIdRoute: TrainingsTrainingIdRoute,
   TournamentsIndexRoute: TournamentsIndexRoute,
   TrainingsIndexRoute: TrainingsIndexRoute,
