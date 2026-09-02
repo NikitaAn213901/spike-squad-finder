@@ -534,6 +534,7 @@ export type Database = {
       }
     }
     Functions: {
+      can_organize: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -544,7 +545,7 @@ export type Database = {
       recalc_achievements: { Args: { _user_id: string }; Returns: undefined }
     }
     Enums: {
-      app_role: "player" | "organizer"
+      app_role: "player" | "organizer" | "admin"
       attendance_status:
         | "pending"
         | "attended"
@@ -687,7 +688,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["player", "organizer"],
+      app_role: ["player", "organizer", "admin"],
       attendance_status: [
         "pending",
         "attended",
