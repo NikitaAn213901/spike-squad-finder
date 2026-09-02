@@ -544,7 +544,7 @@ export type Database = {
       recalc_achievements: { Args: { _user_id: string }; Returns: undefined }
     }
     Enums: {
-      app_role: "player" | "organizer"
+      app_role: "player" | "organizer" | "admin"
       attendance_status:
         | "pending"
         | "attended"
@@ -687,7 +687,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["player", "organizer"],
+      app_role: ["player", "organizer", "admin"],
       attendance_status: [
         "pending",
         "attended",
