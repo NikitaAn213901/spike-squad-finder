@@ -9,7 +9,15 @@ export type Profile = {
   full_name: string;
   city: string;
   phone: string | null;
+  avatar_url: string | null;
+  birth_year: number | null;
+  position: string | null;
+  skill: string;
+  bio: string | null;
+  competitive_rating: number;
+  mvp_count: number;
 };
+
 
 type AuthValue = {
   session: Session | null;
