@@ -121,8 +121,11 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 const navLinks = [
-  { to: "/trainings", label: "Тренировки" },
+  { to: "/trainings", label: "Игры" },
   { to: "/tournaments", label: "Турниры" },
+  { to: "/teams", label: "Команды" },
+  { to: "/ratings", label: "Рейтинг" },
+  { to: "/profile", label: "Профиль" },
 ] as const;
 
 function SiteHeader() {
@@ -141,7 +144,7 @@ function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="ml-6 hidden items-center gap-1 md:flex">
+        <nav className="ml-4 hidden items-center gap-1 lg:flex">
           {navLinks.map((l) => (
             <Link
               key={l.to}
@@ -154,7 +157,7 @@ function SiteHeader() {
           ))}
         </nav>
 
-        <div className="ml-auto hidden items-center gap-3 md:flex">
+        <div className="ml-auto hidden items-center gap-3 lg:flex">
           {user ? (
             <>
               <div className="text-right leading-tight">
@@ -175,7 +178,7 @@ function SiteHeader() {
         </div>
 
         <button
-          className="ml-auto inline-flex size-10 items-center justify-center rounded-lg border border-border md:hidden"
+          className="ml-auto inline-flex size-10 items-center justify-center rounded-lg border border-border lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Меню"
         >
@@ -184,7 +187,7 @@ function SiteHeader() {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background px-4 py-3 md:hidden">
+        <div className="border-t border-border bg-background px-4 py-3 lg:hidden">
           <div className="flex flex-col gap-1">
             {navLinks.map((l) => (
               <Link
@@ -232,6 +235,12 @@ function SiteFooter() {
           </Link>
           <Link to="/tournaments" className="hover:text-foreground">
             Турниры
+          </Link>
+          <Link to="/teams" className="hover:text-foreground">
+            Команды
+          </Link>
+          <Link to="/ratings" className="hover:text-foreground">
+            Рейтинг
           </Link>
         </div>
       </div>
