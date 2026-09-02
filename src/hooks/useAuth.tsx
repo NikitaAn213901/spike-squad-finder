@@ -24,7 +24,9 @@ type AuthValue = {
   user: User | null;
   profile: Profile | null;
   role: AppRole | null;
+  roles: AppRole[];
   isOrganizer: boolean;
+  isAdmin: boolean;
   loading: boolean;
   refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -35,7 +37,9 @@ const AuthContext = createContext<AuthValue>({
   user: null,
   profile: null,
   role: null,
+  roles: [],
   isOrganizer: false,
+  isAdmin: false,
   loading: true,
   refreshProfile: async () => {},
   signOut: async () => {},
