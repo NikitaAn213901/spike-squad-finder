@@ -48,13 +48,13 @@ const AuthContext = createContext<AuthValue>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [role, setRole] = useState<AppRole | null>(null);
+  const [roles, setRoles] = useState<AppRole[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadUserData = useCallback(async (userId: string | undefined) => {
     if (!userId) {
       setProfile(null);
-      setRole(null);
+      setRoles([]);
       return;
     }
     const [{ data: profileData }, { data: roleRows }] = await Promise.all([
@@ -62,8 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       supabase.from("user_roles").select("role").eq("user_id", userId),
     ]);
     setProfile((profileData as Profile) ?? null);
-    const roles = (roleRows ?? []).map((r) => r.role as AppRole);
-    setRole(roles.includes("organizer") ? "organizer" : (roles[0] ?? "player"));
+    setRoles((roleRows ?? []).map((r) => r.role as AppRole));
   }, []);
 
   useEffect(() => {
@@ -83,23 +82,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => sub.subscription.unsubscribe();
   }, [loadUserData]);
 
-  const value = useMemo<AuthValue>(
-    () => ({
+  const value = useMemo<AuthValue>(() => {
+    const isAdmin = roles.includes("admin");
+    const role: AppRole | null = isAdmin
+      ? "admin"
+      : roles.includes("organizer")
+        ? "organizer"
+        : (roles[0] ?? (session ? "player" : null));
+    return {
       session,
       user: session?.user ?? null,
       profile,
       role,
-      isOrganizer: role === "organizer",
+      roles,
+      isOrganizer: isAdmin || roles.includes("organizer"),
+      isAdmin,
       loading,
       refreshProfile: () => loadUserData(session?.user?.id),
       signOut: async () => {
         await supabase.auth.signOut();
         setProfile(null);
-        setRole(null);
+        setRoles([]);
       },
-    }),
-    [session, profile, role, loading, loadUserData],
-  );
+    };
+  }, [session, profile, roles, loading, loadUserData]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
