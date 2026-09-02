@@ -123,8 +123,6 @@ function RootShell({ children }: { children: ReactNode }) {
 const navLinks = [
   { to: "/trainings", label: "Игры" },
   { to: "/tournaments", label: "Турниры" },
-  { to: "/teams", label: "Команды" },
-  { to: "/ratings", label: "Рейтинг" },
   { to: "/profile", label: "Профиль" },
 ] as const;
 
@@ -235,12 +233,6 @@ function SiteFooter() {
           </Link>
           <Link to="/tournaments" className="hover:text-foreground">
             Турниры
-          </Link>
-          <Link to="/teams" className="hover:text-foreground">
-            Команды
-          </Link>
-          <Link to="/ratings" className="hover:text-foreground">
-            Рейтинг
           </Link>
         </div>
       </div>
